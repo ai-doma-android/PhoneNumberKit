@@ -2,11 +2,13 @@ package me.ibrahimsn.lib
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.InsetDrawable
 import android.text.InputFilter
 import android.text.InputType
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputLayout
+import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
 import me.ibrahimsn.lib.Constants.CHAR_DASH
 import me.ibrahimsn.lib.Constants.CHAR_PLUS
 import me.ibrahimsn.lib.Constants.CHAR_SPACE
@@ -29,6 +31,8 @@ class PhoneNumberKit(private val context: Context) {
     private var format: String = ""
 
     private var hasManualCountry = false
+
+    val util = PhoneNumberUtil.createInstance(context)
 
     private var rawInput: CharSequence?
         get() = input?.editText?.text
@@ -95,13 +99,14 @@ class PhoneNumberKit(private val context: Context) {
         }
     }
 
+    var flagInset = 0f
     private fun setCountry(country: Country?, isManual: Boolean = false, prefill: Boolean = false) {
         country?.let {
             this.country = country
 
             // Setup country icon
             getFlagIcon(country.iso2)?.let { icon ->
-                input?.startIconDrawable = icon
+                input?.startIconDrawable = InsetDrawable(icon, flagInset,0f,0f,0f)
             }
 
             // Set text length limit according to the example phone number
@@ -259,8 +264,10 @@ class PhoneNumberKit(private val context: Context) {
      * Provides country for given country code
      */
     fun getCountry(countryCode: Int?): Country? {
+
+        val regionCode = countryCode?.let { util.getRegionCodeForCountryCode(it) }
         for (country in Countries.list) {
-            if (country.countryCode == countryCode) {
+            if (country.iso2.toUpperCase() == regionCode) {
                 return country
             }
         }
