@@ -12,8 +12,8 @@ def buildVersionCode = { ->
 }
 
 def getVersionName = { ->
-    def autoVersion = githubProperties['package.version'].toInteger() + 1
-    githubProperties['package.version'] = autoVersion.toString()
+    //def autoVersion = githubProperties['package.version'].toInteger() + 1
+    //githubProperties['package.version'] = autoVersion.toString()
     return "1.7.56" // Replace with version Name
 }
 

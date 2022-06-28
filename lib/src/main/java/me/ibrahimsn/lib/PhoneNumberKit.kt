@@ -2,7 +2,6 @@ package me.ibrahimsn.lib
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.InsetDrawable
 import android.text.InputFilter
 import android.text.InputType
 import androidx.appcompat.app.AppCompatActivity
@@ -106,7 +105,7 @@ class PhoneNumberKit(private val context: Context) {
 
             // Setup country icon
             getFlagIcon(country.iso2)?.let { icon ->
-                input?.startIconDrawable = InsetDrawable(icon, flagInset,0f,0f,0f)
+                input?.startIconDrawable = icon //InsetDrawable(icon, flagInset,0f,0f,0f)
             }
 
             // Set text length limit according to the example phone number
